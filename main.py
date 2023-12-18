@@ -53,6 +53,6 @@ for each_item in item_area:
         item_list.append(item_dict)
 
 print(item_list)
-print('.')
+print('')
 
 # print(item_area[0].find('img', 'bl-thumbnail--img').get('src'))
