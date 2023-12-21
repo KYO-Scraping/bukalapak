@@ -3,6 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import pandas as pd
+from flask import Flask, render_template
+
 
 url = 'https://www.bukalapak.com/c/elektronik/home-theater'
 html_doc = requests.get(url)
@@ -23,11 +25,13 @@ item_dict = {}
 
 for each_item in item_area:
     name = ''
+    link = ''
     thumbnail = ''
     temp_sc_r = ''
 
     try:
         name = each_item.find('a', 'bl-link').text.strip()
+        link = each_item.find('a', 'bl-link')['href']
     except:
         name = 'No Name'
 
@@ -40,6 +44,7 @@ for each_item in item_area:
         thumbnail = each_item.find('img', 'bl-thumbnail--img').get('src')
     except:
         thumbnail = 'No Thumbnail'
+    # print(each_item.find('img', 'bl-thumbnail--img').get('src'))
 
     if(name != 'No Name'):
         item_dict = {
@@ -48,11 +53,12 @@ for each_item in item_area:
             'rating' : float(temp_sc_r[0:3].strip()),
             'sold_count' : int(temp_sc_r[temp_sc_r.find('Terjual ')+8:].strip()),
             'location' : each_item.find('span', 'mr-4').text.strip(),
-            'thumbnail' : thumbnail
+            'thumbnail' : thumbnail,
+            'link' : link
         }
         item_list.append(item_dict)
 
 print(item_list)
-print('')
 
 # print(item_area[0].find('img', 'bl-thumbnail--img').get('src'))
+
