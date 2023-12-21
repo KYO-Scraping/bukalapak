@@ -54,7 +54,6 @@ def page_1():
                 'link': link
             }
             item_list.append(item_dict)
-            print('')
 
     return render_template('input.html', item_list=item_list)
 
